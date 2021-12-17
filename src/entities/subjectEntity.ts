@@ -4,8 +4,10 @@ import {
   Column,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from 'typeorm'
 
+import ExamEntity from './examEntity'
 import TeacherEntity from './teacherEntity'
 
 @Entity('subjects')
@@ -15,6 +17,9 @@ export default class Subject {
 
   @Column()
   public name: string
+
+  @OneToMany(() => ExamEntity, (exam) => exam.id)
+  public exams: ExamEntity[]
 
   @ManyToMany(() => TeacherEntity, (teacher) => teacher.id, { eager: true })
   @JoinTable({
@@ -34,6 +39,7 @@ export default class Subject {
     return {
       id: this.id,
       name: this.name,
+      exams: this.exams,
       teachers: this.teachers,
     }
   }
