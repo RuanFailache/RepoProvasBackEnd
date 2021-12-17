@@ -11,10 +11,10 @@ import SubjectEntity from './subjectEntity'
 @Entity('teachers')
 export default class Teacher {
   @PrimaryGeneratedColumn()
-  id: number
+  public id: number
 
   @Column()
-  name: string
+  public name: string
 
   @ManyToMany(() => SubjectEntity, (subject) => subject.id, { eager: true })
   @JoinTable({
@@ -28,7 +28,7 @@ export default class Teacher {
       referencedColumnName: 'id',
     },
   })
-  subjects: SubjectEntity[]
+  public subjects: SubjectEntity[]
 
   getTeacher() {
     return {

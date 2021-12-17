@@ -12,21 +12,21 @@ import SubjectEntity from './subjectEntity'
 @Entity('exams')
 export default class Exam {
   @PrimaryGeneratedColumn()
-  id: number
+  public id: number
 
   @Column()
-  name: string
+  public name: string
 
   @Column()
-  category: string
+  public category: string
 
   @OneToOne(() => SubjectEntity, { eager: true })
   @JoinColumn({ name: 'teacher_id' })
-  teacher: TeacherEntity
+  public teacher: TeacherEntity
 
   @OneToOne(() => SubjectEntity, { eager: true })
   @JoinColumn({ name: 'subject_id' })
-  subject: SubjectEntity
+  public subject: SubjectEntity
 
   getExam() {
     return {
