@@ -1,10 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  JoinColumn,
-  OneToOne,
-} from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm'
 
 import TeacherEntity from './teacherEntity'
 import SubjectEntity from './subjectEntity'
@@ -12,29 +6,30 @@ import SubjectEntity from './subjectEntity'
 @Entity('exams')
 export default class Exam {
   @PrimaryGeneratedColumn()
-  public id: number
+  id: number
 
   @Column()
-  public name: string
+  name: string
 
   @Column()
-  public category: string
+  category: string
 
-  @OneToOne(() => SubjectEntity, { eager: true })
-  @JoinColumn({ name: 'teacher_id' })
-  public teacher: TeacherEntity
+  @Column()
+  link: string
 
-  @OneToOne(() => SubjectEntity, { eager: true })
-  @JoinColumn({ name: 'subject_id' })
-  public subject: SubjectEntity
+  @ManyToOne(() => SubjectEntity, (subject) => subject.exams)
+  subject: SubjectEntity
+
+  @ManyToOne(() => SubjectEntity, (teacher) => teacher.exams)
+  teacher: TeacherEntity
 
   getExam() {
     return {
       id: this.id,
       name: this.name,
       category: this.category,
-      teacher: this.teacher.name,
-      subject: this.subject.name,
+      teacher: this.teacher,
+      subject: this.subject,
     }
   }
 }

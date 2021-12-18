@@ -1,14 +1,6 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToMany,
-  JoinTable,
-  OneToMany,
-} from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm'
 
 import ExamEntity from './examEntity'
-import TeacherEntity from './teacherEntity'
 
 @Entity('subjects')
 export default class Subject {
@@ -18,29 +10,14 @@ export default class Subject {
   @Column()
   public name: string
 
-  @OneToMany(() => ExamEntity, (exam) => exam.id)
+  @OneToMany(() => ExamEntity, (exam) => exam.subject)
   public exams: ExamEntity[]
-
-  @ManyToMany(() => TeacherEntity, (teacher) => teacher.id, { eager: true })
-  @JoinTable({
-    name: 'subjects_teachers',
-    joinColumn: {
-      name: 'subject_id',
-      referencedColumnName: 'id',
-    },
-    inverseJoinColumn: {
-      name: 'teacher_id',
-      referencedColumnName: 'id',
-    },
-  })
-  private teachers: TeacherEntity[]
 
   getSubject() {
     return {
       id: this.id,
       name: this.name,
       exams: this.exams,
-      teachers: this.teachers,
     }
   }
 }
