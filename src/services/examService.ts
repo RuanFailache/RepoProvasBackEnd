@@ -27,5 +27,5 @@ export const create = async (inputData: ExamReqBody) => {
   })
   const result = await getRepository(Exam).save(exam)
 
-  console.log(result.getExam())
+  return result.getExam()
 }
