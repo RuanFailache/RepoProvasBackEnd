@@ -1,17 +1,39 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm'
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm'
 
-import ExamEntity from './examEntity'
+import Exam from './examEntity'
+import Teacher from './teacherEntity'
 
 @Entity('subjects')
 export default class Subject {
   @PrimaryGeneratedColumn()
-  public id: number
+  id: number
 
   @Column()
-  public name: string
+  name: string
 
-  @OneToMany(() => ExamEntity, (exam) => exam.subject)
-  public exams: ExamEntity[]
+  @OneToMany(() => Exam, (exam) => exam.subject)
+  exams: Exam[]
+
+  @ManyToMany(() => Teacher, (teacher) => teacher.subjects)
+  @JoinTable({
+    name: 'subjects_teachers',
+    joinColumn: {
+      name: 'subject_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'teacher_id',
+      referencedColumnName: 'id',
+    },
+  })
+  teachers: Teacher[]
 
   getSubject() {
     return {

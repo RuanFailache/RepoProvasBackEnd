@@ -23,4 +23,5 @@ var express_1 = require("express");
 var ExamController = __importStar(require("../controllers/examController"));
 var router = (0, express_1.Router)();
 router.post('/', ExamController.postExam);
+router.get('/teacher/:id', ExamController.getExams);
 exports["default"] = router;
