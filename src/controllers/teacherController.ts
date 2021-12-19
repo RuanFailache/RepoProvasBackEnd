@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 
-import * as subjectService from '../services/subjectService'
+import * as teacherService from '../services/teacherService'
 
-export const getSubjectsByTeacherId = async (
+export const getTeachersBySubjectId = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -10,7 +10,7 @@ export const getSubjectsByTeacherId = async (
   const id = Number(req.params.id)
 
   try {
-    const subjects = await subjectService.filterSubjectsById(id)
+    const subjects = await teacherService.filterTeachersById(id)
     res.send(subjects)
   } catch (err) {
     next(err)
