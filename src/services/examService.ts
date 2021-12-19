@@ -3,6 +3,7 @@ import { getRepository } from 'typeorm'
 import Exam from '../entities/examEntity'
 import Subject from '../entities/subjectEntity'
 import Teacher from '../entities/teacherEntity'
+import InvalidBodyError from '../errors/InvalidBodyError'
 
 import { ExamBody } from '../interfaces/ExamRequest'
 
@@ -12,7 +13,7 @@ export const create = async (inputData: ExamBody) => {
   const { error } = examValidation.validate(inputData)
 
   if (error) {
-    throw new Error('Bad Request')
+    throw new InvalidBodyError('Invalid input data!')
   }
 
   const { subjectId, teacherId } = inputData
