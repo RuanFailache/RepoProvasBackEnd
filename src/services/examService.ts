@@ -42,3 +42,16 @@ export const listExamsByTeacher = async (id: string) => {
 
   return exams.map((exam) => exam.getExam())
 }
+
+export const listExamsBySubject = async (id: string) => {
+  const subject = await getRepository(Subject).findOneOrFail(id)
+
+  const exams = await getRepository(Exam).find({
+    where: {
+      subject,
+    },
+    relations: ['teacher'],
+  })
+
+  return exams.map((exam) => exam.getExam())
+}

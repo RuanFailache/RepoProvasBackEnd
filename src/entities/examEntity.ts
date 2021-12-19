@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm'
 
-import TeacherEntity from './teacherEntity'
-import SubjectEntity from './subjectEntity'
+import Teacher from './teacherEntity'
+import Subject from './subjectEntity'
 
 @Entity('exams')
 export default class Exam {
@@ -17,11 +17,11 @@ export default class Exam {
   @Column()
   link: string
 
-  @ManyToOne(() => SubjectEntity, (subject) => subject.exams)
-  subject: SubjectEntity
+  @ManyToOne(() => Subject, (subject) => subject.exams)
+  subject: Subject
 
-  @ManyToOne(() => SubjectEntity, (teacher) => teacher.exams)
-  teacher: TeacherEntity
+  @ManyToOne(() => Teacher, (teacher) => teacher.exams)
+  teacher: Teacher
 
   getExam() {
     return {

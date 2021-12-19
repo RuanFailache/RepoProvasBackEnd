@@ -21,7 +21,7 @@ export const postExam = async (
   }
 }
 
-export const getExams = async (
+export const filterExamsByTeacher = async (
   req: ExamRequest,
   res: Response,
   next: NextFunction
@@ -30,6 +30,21 @@ export const getExams = async (
 
   try {
     const exams = await examService.listExamsByTeacher(id)
+    return res.send(exams)
+  } catch (err) {
+    return next(err)
+  }
+}
+
+export const filterExamsBySubject = async (
+  req: ExamRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id } = req.params
+
+  try {
+    const exams = await examService.listExamsBySubject(id)
     return res.send(exams)
   } catch (err) {
     return next(err)
