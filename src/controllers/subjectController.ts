@@ -1,18 +1,18 @@
-import { Request, Response, NextFunction } from 'express'
+import { Request, Response } from 'express'
+import { EntityNotFoundError } from 'typeorm'
 
 import * as subjectService from '../services/subjectService'
 
-export const getSubjectsByTeacherId = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getSubjectsByTeacherId = async (req: Request, res: Response) => {
   const id = Number(req.params.id)
 
   try {
     const subjects = await subjectService.filterSubjectsById(id)
-    res.send(subjects)
+    return res.send(subjects)
   } catch (err) {
-    next(err)
+    if (err instanceof EntityNotFoundError) {
+      return res.sendStatus(404)
+    }
+    return res.sendStatus(500)
   }
 }
