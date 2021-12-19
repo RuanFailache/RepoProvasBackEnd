@@ -28,6 +28,7 @@ export default class Exam {
       id: this.id,
       name: this.name,
       category: this.category,
+      link: this.link,
       teacher: this.teacher,
       subject: this.subject,
     }
