@@ -55,16 +55,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.postExam = void 0;
+exports.getExams = exports.postExam = void 0;
 var typeorm_1 = require("typeorm");
-var ExamService = __importStar(require("../services/examService"));
+var examService = __importStar(require("../services/examService"));
 var postExam = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, ExamService.create(req.body)];
+                return [4 /*yield*/, examService.create(req.body)];
             case 1:
                 _a.sent();
                 return [2 /*return*/, res.sendStatus(201)];
@@ -79,3 +79,24 @@ var postExam = function (req, res, next) { return __awaiter(void 0, void 0, void
     });
 }); };
 exports.postExam = postExam;
+var getExams = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, exams, err_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                id = req.params.id;
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, examService.listExamsByTeacher(id)];
+            case 2:
+                exams = _a.sent();
+                return [2 /*return*/, res.send(exams)];
+            case 3:
+                err_2 = _a.sent();
+                return [2 /*return*/, next(err_2)];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getExams = getExams;

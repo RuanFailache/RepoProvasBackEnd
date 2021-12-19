@@ -1,6 +1,6 @@
 import { Request } from 'express'
 
-export interface ExamReqBody {
+export interface ExamBody {
   name: string
   category: string
   teacherId: number
@@ -9,5 +9,5 @@ export interface ExamReqBody {
 }
 
 export default interface ExamRequest extends Request {
-  body: ExamReqBody
+  body: ExamBody
 }

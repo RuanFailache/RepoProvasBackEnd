@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -39,14 +50,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-exports.create = void 0;
+exports.listExamsByTeacher = exports.create = void 0;
 var typeorm_1 = require("typeorm");
 var examEntity_1 = __importDefault(require("../entities/examEntity"));
 var subjectEntity_1 = __importDefault(require("../entities/subjectEntity"));
 var teacherEntity_1 = __importDefault(require("../entities/teacherEntity"));
 var examValidation_1 = __importDefault(require("../schemas/examValidation"));
 var create = function (inputData) { return __awaiter(void 0, void 0, void 0, function () {
-    var error, subjectId, teacherId, exam, result;
+    var error, subjectId, teacherId, subject, teacher, exam, result;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -57,17 +68,36 @@ var create = function (inputData) { return __awaiter(void 0, void 0, void 0, fun
                 subjectId = inputData.subjectId, teacherId = inputData.teacherId;
                 return [4 /*yield*/, (0, typeorm_1.getRepository)(subjectEntity_1["default"]).findOneOrFail(subjectId)];
             case 1:
-                _a.sent();
+                subject = _a.sent();
                 return [4 /*yield*/, (0, typeorm_1.getRepository)(teacherEntity_1["default"]).findOneOrFail(teacherId)];
             case 2:
-                _a.sent();
-                exam = (0, typeorm_1.getRepository)(examEntity_1["default"]).create(inputData);
+                teacher = _a.sent();
+                exam = (0, typeorm_1.getRepository)(examEntity_1["default"]).create(__assign(__assign({}, inputData), { subject: subject, teacher: teacher }));
                 return [4 /*yield*/, (0, typeorm_1.getRepository)(examEntity_1["default"]).save(exam)];
             case 3:
                 result = _a.sent();
-                console.log(result.getExam());
-                return [2 /*return*/];
+                return [2 /*return*/, result.getExam()];
         }
     });
 }); };
 exports.create = create;
+var listExamsByTeacher = function (id) { return __awaiter(void 0, void 0, void 0, function () {
+    var teacher, exams;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, (0, typeorm_1.getRepository)(teacherEntity_1["default"]).findOneOrFail(id)];
+            case 1:
+                teacher = _a.sent();
+                return [4 /*yield*/, (0, typeorm_1.getRepository)(examEntity_1["default"]).find({
+                        where: {
+                            teacher: teacher
+                        },
+                        relations: ['subject']
+                    })];
+            case 2:
+                exams = _a.sent();
+                return [2 /*return*/, exams.map(function (exam) { return exam.getExam(); })];
+        }
+    });
+}); };
+exports.listExamsByTeacher = listExamsByTeacher;

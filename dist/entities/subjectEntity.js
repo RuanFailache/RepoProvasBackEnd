@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 var typeorm_1 = require("typeorm");
 var examEntity_1 = __importDefault(require("./examEntity"));
+var teacherEntity_1 = __importDefault(require("./teacherEntity"));
 var Subject = /** @class */ (function () {
     function Subject() {
     }
@@ -36,6 +37,21 @@ var Subject = /** @class */ (function () {
         (0, typeorm_1.OneToMany)(function () { return examEntity_1["default"]; }, function (exam) { return exam.subject; }),
         __metadata("design:type", Array)
     ], Subject.prototype, "exams");
+    __decorate([
+        (0, typeorm_1.ManyToMany)(function () { return teacherEntity_1["default"]; }, function (teacher) { return teacher.subjects; }),
+        (0, typeorm_1.JoinTable)({
+            name: 'subjects_teachers',
+            joinColumn: {
+                name: 'subject_id',
+                referencedColumnName: 'id'
+            },
+            inverseJoinColumn: {
+                name: 'teacher_id',
+                referencedColumnName: 'id'
+            }
+        }),
+        __metadata("design:type", Array)
+    ], Subject.prototype, "teachers");
     Subject = __decorate([
         (0, typeorm_1.Entity)('subjects')
     ], Subject);
