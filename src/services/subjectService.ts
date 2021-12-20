@@ -1,14 +1,8 @@
 import { getRepository } from 'typeorm'
 
-import Teacher from '../entities/teacherEntity'
+import Subject from '../entities/subjectEntity'
 
-export const filterSubjectsById = async (id: number) => {
-  const teacher = await getRepository(Teacher).findOneOrFail({
-    where: {
-      id,
-    },
-    relations: ['subjects'],
-  })
-
-  return teacher.subjects
+export const listAll = async () => {
+  const subjects = await getRepository(Subject).find()
+  return subjects
 }
