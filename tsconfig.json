@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    "noImplicitAny": true,
-    "esModuleInterop": true,
-    "moduleResolution": "Node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
-  }
-}
